@@ -1,3 +1,6 @@
+[![Release](https://jitpack.io/v/Vantiq/gatling-mqtt-protocol.svg)]
+(https://jitpack.io/#Vantiq/gatling-mqtt-protocol)
+
 # Gatling-MQTT-Protocol
 
 _Gatling-MQTT-Protocol_ is an unofficial plugin for the [Gatling](http://gatling.io) load testing framework.
