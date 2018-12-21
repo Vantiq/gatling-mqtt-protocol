@@ -14,9 +14,12 @@ import io.gatling.core.session._
 /**
   *
   */
+
+
+
 object MqttProtocol extends StrictLogging {
 
-    val MqttProtocolKey = new ProtocolKey {
+    val MqttProtocolKey : ProtocolKey[MqttProtocol, MqttComponents] = new ProtocolKey[MqttProtocol, MqttComponents] {
 
         type Protocol = MqttProtocol
         type Components = MqttComponents
@@ -26,12 +29,12 @@ object MqttProtocol extends StrictLogging {
 
         def defaultProtocolValue(configuration : GatlingConfiguration) : MqttProtocol = MqttProtocol(configuration)
 
-        def newComponents(system : ActorSystem, coreComponents : CoreComponents) : MqttProtocol => MqttComponents = {
+        def newComponents(coreComponents : CoreComponents) : MqttProtocol => MqttComponents = {
 
             mqttProtocol => {
                 val mqttComponents = MqttComponents(
                     mqttProtocol,
-                    system
+                    coreComponents.actorSystem
                 )
 
                 mqttComponents

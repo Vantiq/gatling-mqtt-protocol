@@ -26,6 +26,6 @@ class MqttRoundtripMeasurementExample extends Simulation {
         .exec(waitForMessages().timeout(30 seconds))
 
     setUp(
-        scn.inject(rampUsers(10) over (10 seconds)))
+        scn.inject(rampUsers(10) during  (10 seconds)))
         .protocols(mqttConf)
 }

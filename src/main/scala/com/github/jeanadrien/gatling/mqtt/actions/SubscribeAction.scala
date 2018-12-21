@@ -7,10 +7,10 @@ import com.github.jeanadrien.gatling.mqtt.client.MqttCommands
 import com.github.jeanadrien.gatling.mqtt.client.MqttQoS.MqttQoS
 import com.github.jeanadrien.gatling.mqtt.protocol.MqttComponents
 import io.gatling.commons.stats._
-import io.gatling.commons.util.ClockSingleton._
 import io.gatling.core.CoreComponents
 import io.gatling.core.action.Action
 import io.gatling.core.session._
+
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
@@ -36,7 +36,7 @@ class SubscribeAction(
     } yield {
         implicit val timeout = Timeout(1 minute) // TODO check how to configure this
 
-        val requestStartDate = nowMillis
+        val requestStartDate = clock.nowMillis
 
         val requestName = "subscribe"
 
@@ -48,7 +48,8 @@ class SubscribeAction(
                 statsEngine.logResponse(
                     session,
                     requestName,
-                    subscribeTimings,
+                    subscribeTimings.startTimestamp,
+                    subscribeTimings.endTimestamp,
                     OK,
                     None,
                     None // Some(new String(value)) // FIXME see equiv in Fuse client
@@ -62,7 +63,8 @@ class SubscribeAction(
                 statsEngine.logResponse(
                     session,
                     requestName,
-                    subscribeTimings,
+                    subscribeTimings.startTimestamp,
+                    subscribeTimings.endTimestamp,
                     KO,
                     None,
                     Some(th.getMessage)
@@ -71,5 +73,4 @@ class SubscribeAction(
                 next ! session
         }
     })
-
 }
