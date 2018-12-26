@@ -3,12 +3,12 @@ package com.github.jeanadrien.gatling.mqtt.actions
 import com.github.jeanadrien.gatling.mqtt.client.{FuseSourceConnectionListener, MqttCommands}
 import com.github.jeanadrien.gatling.mqtt.protocol.{ConnectionSettings, MqttComponents}
 import io.gatling.commons.stats._
-import io.gatling.commons.util.ClockSingleton._
 import io.gatling.core.CoreComponents
 import io.gatling.core.Predef._
 import io.gatling.core.action.Action
 import akka.pattern.ask
 import akka.util.Timeout
+
 import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
@@ -35,7 +35,7 @@ class ConnectAction(
 
             // connect
             implicit val timeout = Timeout(1 minute) // TODO check how to configure this
-        val requestStartDate = nowMillis
+        val requestStartDate = clock.nowMillis
             (mqtt ? MqttCommands.Connect).mapTo[MqttCommands].onComplete {
                 case Success(MqttCommands.ConnectAck) =>
                     val connectTiming = timings(requestStartDate)
@@ -43,7 +43,8 @@ class ConnectAction(
                     statsEngine.logResponse(
                         session,
                         requestName,
-                        connectTiming,
+                        connectTiming.startTimestamp,
+                        connectTiming.endTimestamp,
                         OK,
                         None,
                         None
@@ -58,7 +59,8 @@ class ConnectAction(
                     statsEngine.logResponse(
                         session,
                         requestName,
-                        connectTiming,
+                        connectTiming.startTimestamp,
+                        connectTiming.endTimestamp,
                         KO,
                         None,
                         Some(th.getMessage)
@@ -67,5 +69,4 @@ class ConnectAction(
             }
         }
     }
-
 }

@@ -1,7 +1,7 @@
 organization := "com.github.jeanadrien"
 name := "gatling-mqtt-protocol"
 
-scalaVersion := "2.12.4"
+scalaVersion := "2.12.8"
 
 licenses := Seq(
     "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
@@ -35,12 +35,12 @@ publishTo := {
 }
 
 // dependencies
-libraryDependencies += "io.gatling" % "gatling-core" % "2.3.1" % "provided"
+libraryDependencies += "io.gatling" % "gatling-core" % "3.0.2" % "provided"
 libraryDependencies += "org.fusesource.mqtt-client" % "mqtt-client" % "1.14"
 libraryDependencies += "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.0.2"
 
-libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "2.3.1" % "test"
-libraryDependencies += "io.gatling"            % "gatling-test-framework"    % "2.3.1" % "test"
+libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.0.2" % "test"
+libraryDependencies += "io.gatling"            % "gatling-test-framework"    % "3.0.2" % "test"
 
 // for the gatling lib
 assemblyOption in assembly := (assemblyOption in assembly).value

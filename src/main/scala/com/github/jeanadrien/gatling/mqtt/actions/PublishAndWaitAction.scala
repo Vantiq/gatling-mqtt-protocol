@@ -7,7 +7,6 @@ import com.github.jeanadrien.gatling.mqtt.client.MqttCommands
 import com.github.jeanadrien.gatling.mqtt.client.MqttQoS.MqttQoS
 import com.github.jeanadrien.gatling.mqtt.protocol.MqttComponents
 import io.gatling.commons.stats.{KO, OK}
-import io.gatling.commons.util.ClockSingleton._
 import io.gatling.core.CoreComponents
 import io.gatling.core.action.Action
 import io.gatling.core.session._
@@ -43,7 +42,7 @@ class PublishAndWaitAction(
     } yield {
         implicit val messageTimeout = Timeout(timeout)
 
-        val requestStartDate = nowMillis
+        val requestStartDate = clock.nowMillis
 
         val requestName = "publish and wait"
 
@@ -64,7 +63,8 @@ class PublishAndWaitAction(
                 statsEngine.logResponse(
                     session,
                     requestName,
-                    latencyTimings,
+                    latencyTimings.startTimestamp,
+                    latencyTimings.endTimestamp,
                     OK,
                     None,
                     None
@@ -77,7 +77,8 @@ class PublishAndWaitAction(
                 statsEngine.logResponse(
                     session,
                     requestName,
-                    latencyTimings,
+                    latencyTimings.startTimestamp,
+                    latencyTimings.endTimestamp,
                     KO,
                     None,
                     th match {
