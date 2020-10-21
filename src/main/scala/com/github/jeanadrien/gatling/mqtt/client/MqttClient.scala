@@ -75,6 +75,7 @@ abstract class MqttClient(val gatlingMqttId : String) extends Actor with LazyLog
         payloadFeedback : FeedbackFunction,
         qos             : MqttQoS,
         retain          : Boolean,
+        returnTopic: String,
         replyTo         : ActorRef
     ) = {
         implicit val timeout = Timeout(1 minute)
@@ -88,7 +89,7 @@ abstract class MqttClient(val gatlingMqttId : String) extends Actor with LazyLog
             case Success(_) =>
                 // Register listener
                 self ! PublishAckRegisterFeedback(
-                    topic, payloadFeedback, replyTo
+                    returnTopic, payloadFeedback, replyTo
                 )
             case Failure(th) =>
                 delayIncomingMessages = false
@@ -126,8 +127,12 @@ abstract class MqttClient(val gatlingMqttId : String) extends Actor with LazyLog
             subscribe(topics, sender())
         case Publish(topic, payload, mqttQoS, retain) =>
             publish(topic, payload, mqttQoS, retain, sender())
-        case PublishAndWait(topic, payload, payloadFeedback, mqttQoS, retain) =>
-            publishAndWait(topic, payload, payloadFeedback, mqttQoS, retain, sender())
+        case PublishAndWait(topic, payload, payloadFeedback, mqttQoS, retain, returnTopic) =>
+            if (returnTopic.isEmpty) {
+                publishAndWait(topic, payload, payloadFeedback, mqttQoS, retain, topic, sender())
+            } else {
+                publishAndWait(topic, payload, payloadFeedback, mqttQoS, retain, returnTopic, sender())
+            }
         case PublishAckRegisterFeedback(topic, payloadFeedback, listener) =>
             publishAckRegisterFeedback(topic, payloadFeedback, listener)
         case msg @ OnPublish(topic, payload) =>
