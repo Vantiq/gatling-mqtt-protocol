@@ -26,6 +26,7 @@ class PublishAndWaitAction(
     qos             : MqttQoS,
     retain          : Boolean,
     timeout         : FiniteDuration,
+    returnTopic     : String,
     val next        : Action
 ) extends MqttAction(mqttComponents, coreComponents) {
 
@@ -55,7 +56,8 @@ class PublishAndWaitAction(
             payload = resolvedPayload,
             payloadFeedback = payloadCheck,
             qos = qos,
-            retain = retain
+            retain = retain,
+            returnTopic = returnTopic
         )).mapTo[MqttCommands] onComplete {
             case Success(MqttCommands.FeedbackReceived) =>
                 val latencyTimings = timings(requestStartDate)

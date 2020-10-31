@@ -19,7 +19,8 @@ case class PublishAndWaitActionBuilder(
     payloadFeedback : Array[Byte] => Array[Byte] => Boolean = PayloadComparison.sameBytesContent,
     qos             : MqttQoS = MqttQoS.AtMostOnce,
     retain          : Boolean = false,
-    timeout         : FiniteDuration = 60 seconds
+    timeout         : FiniteDuration = 60 seconds,
+    returnTopic     : String = ""
 ) extends MqttActionBuilder {
 
     def qos(newQos : MqttQoS) : PublishAndWaitActionBuilder = this.modify(_.qos).setTo(newQos)
@@ -31,6 +32,8 @@ case class PublishAndWaitActionBuilder(
     def qosExactlyOnce = qos(MqttQoS.ExactlyOnce)
 
     def retain(newRetain : Boolean) : PublishAndWaitActionBuilder = this.modify(_.retain).setTo(newRetain)
+
+    def returnTopic(newTopic: String) : PublishAndWaitActionBuilder = this.modify(_.returnTopic).setTo(newTopic)
 
     def payloadFeedback(fn : Array[Byte] => Array[Byte] => Boolean) : PublishAndWaitActionBuilder = this
         .modify(_.payloadFeedback).setTo(fn)
@@ -49,6 +52,7 @@ case class PublishAndWaitActionBuilder(
             qos,
             retain,
             timeout,
+            returnTopic,
             next
         )
     }
