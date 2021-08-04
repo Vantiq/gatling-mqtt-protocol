@@ -18,7 +18,7 @@ abstract class MqttAction(
     val statsEngine = coreComponents.statsEngine
 
     def timings(requestStartDate : Long) =
-        ResponseTimings(startTimestamp = requestStartDate, endTimestamp = clock.nowMillis)
+        new ResponseTimings(startTimestamp = requestStartDate, endTimestamp = clock.nowMillis)
 
     override def clock: Clock = new DefaultClock
 }

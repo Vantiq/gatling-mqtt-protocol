@@ -10,6 +10,7 @@ import akka.pattern.ask
 import akka.util.Timeout
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.util.{Failure, Success}
 
 /**
@@ -41,7 +42,8 @@ class ConnectAction(
                     val connectTiming = timings(requestStartDate)
 
                     statsEngine.logResponse(
-                        session,
+                        session.scenario,
+                        session.groups,
                         requestName,
                         connectTiming.startTimestamp,
                         connectTiming.endTimestamp,
@@ -57,7 +59,8 @@ class ConnectAction(
                     val connectTiming = timings(requestStartDate)
                     logger.warn(s"${connectionId}: Failed to connect to MQTT: ${th}")
                     statsEngine.logResponse(
-                        session,
+                        session.scenario,
+                        session.groups,
                         requestName,
                         connectTiming.startTimestamp,
                         connectTiming.endTimestamp,

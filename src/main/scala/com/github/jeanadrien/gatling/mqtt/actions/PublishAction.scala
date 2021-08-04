@@ -12,6 +12,7 @@ import io.gatling.core.action.Action
 import io.gatling.core.session._
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.util.{Failure, Success}
 
 /**
@@ -52,7 +53,8 @@ class PublishAction(
                 val publishTimings = timings(requestStartDate)
 
                 statsEngine.logResponse(
-                    session,
+                    session.scenario,
+                    session.groups,
                     requestName,
                     publishTimings.startTimestamp,
                     publishTimings.endTimestamp,
@@ -66,7 +68,8 @@ class PublishAction(
                 val publishTimings = timings(requestStartDate)
                 logger.warn(s"${connectionId}: Failed to publish on ${resolvedTopic}: ${th}")
                 statsEngine.logResponse(
-                    session,
+                    session.scenario,
+                    session.groups,
                     requestName,
                     publishTimings.startTimestamp,
                     publishTimings.endTimestamp,
