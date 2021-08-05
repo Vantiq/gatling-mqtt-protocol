@@ -64,7 +64,8 @@ class PublishAndWaitAction(
                 val latencyTimings = timings(requestStartDate)
 
                 statsEngine.logResponse(
-                    session,
+                    session.scenario,
+                    session.groups,
                     requestName,
                     latencyTimings.startTimestamp,
                     latencyTimings.endTimestamp,
@@ -78,7 +79,8 @@ class PublishAndWaitAction(
                 val latencyTimings = timings(requestStartDate)
 
                 statsEngine.logResponse(
-                    session,
+                    session.scenario,
+                    session.groups,
                     requestName,
                     latencyTimings.startTimestamp,
                     latencyTimings.endTimestamp,

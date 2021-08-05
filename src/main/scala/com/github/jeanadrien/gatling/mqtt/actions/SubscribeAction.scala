@@ -12,6 +12,7 @@ import io.gatling.core.action.Action
 import io.gatling.core.session._
 
 import scala.concurrent.duration._
+import scala.language.postfixOps
 import scala.util.{Failure, Success}
 
 /**
@@ -46,7 +47,8 @@ class SubscribeAction(
                 val subscribeTimings = timings(requestStartDate)
 
                 statsEngine.logResponse(
-                    session,
+                    session.scenario,
+                    session.groups,
                     requestName,
                     subscribeTimings.startTimestamp,
                     subscribeTimings.endTimestamp,
@@ -61,7 +63,8 @@ class SubscribeAction(
                 logger.warn(s"${connectionId}: Failed to SUBSCRIBE on ${resolvedTopic}: ${th}")
 
                 statsEngine.logResponse(
-                    session,
+                    session.scenario,
+                    session.groups,
                     requestName,
                     subscribeTimings.startTimestamp,
                     subscribeTimings.endTimestamp,
