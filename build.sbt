@@ -26,12 +26,12 @@ developers := List(
 )
 
 // dependencies
-libraryDependencies += "io.gatling" % "gatling-core" % "3.7.6" % "provided"
+libraryDependencies += "io.gatling" % "gatling-core" % "3.9.5" % "provided"
 libraryDependencies += "org.fusesource.mqtt-client" % "mqtt-client" % "1.16"
 libraryDependencies += "org.eclipse.paho" % "org.eclipse.paho.client.mqttv3" % "1.2.5"
 
-libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.7.6" % "test"
-libraryDependencies += "io.gatling"            % "gatling-test-framework"    % "3.7.6" % "test"
+libraryDependencies += "io.gatling.highcharts" % "gatling-charts-highcharts" % "3.9.5" % "test"
+libraryDependencies += "io.gatling"            % "gatling-test-framework"    % "3.9.5" % "test"
 
 // for the gatling lib
 assemblyOption in assembly := (assemblyOption in assembly).value
